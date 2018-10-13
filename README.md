@@ -27,7 +27,8 @@ Tambahkan menjadi seperti ini:
  - Buat database
  - Atur koneksi database pada folder application/config/database.php
  - Sebelum menggunakan Library Auto_number pastikan koneksi database berhasil dan tidak ada error
- - Buat model Contoh_model.php di folder application/models/Contoh_model.php
+ 
+ Buat model Contoh_model.php di folder application/models/Contoh_model.php
 
     <?php
     defined('BASEPATH') OR exit('No direct script access allowed');
