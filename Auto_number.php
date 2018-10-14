@@ -36,12 +36,6 @@ class Auto_number {
 	 */
 	protected $tanggal = FALSE;
 
-	/**
-	 * Format tanggal YYMMDD
-	 * @var string
-	 */
-	protected $prefix_tanggal = '';
-
 	// --------------------------------------------------------------------
 
 	/**
@@ -67,12 +61,8 @@ class Auto_number {
 	 */
 	public function generate_id()
 	{
-		//Kondisi Id tidak ada atau kosong, beri nilai default
-		if ($this->id == NULL OR $this->id == '')
-		{
-			$this->id = 1;
-		}
-		else
+		//Kondisi bila id sudah di set
+		if(isset($this->id))
 		{
 			//Kondisi bila tanggal di set TRUE
 			if($this->tanggal)
@@ -80,8 +70,8 @@ class Auto_number {
 				//Extract tanggal dari id
 				$extract_tgl = substr($this->id, 0, 6);
 
-				//Set prefix tanggal
-				$this->prefix_tanggal = $extract_tgl;
+				//Set awalan dengan tanggal
+				$this->awalan = $extract_tgl;
 			}
 
 			//Extract nomor dari id
@@ -90,27 +80,34 @@ class Auto_number {
 			//Casting nomor ke Integer
 			$no = (int) $extract_no;
 
-			//Increment id
+			//Set id
 			$this->id = ++$no;
+		}
+		else
+		{
+			//Set id
+			$this->id = 1;
 
-			if($this->tanggal && $this->prefix_tanggal === date("ymd"))
+			//Kondisi bila tanggal di set TRUE
+			if($this->tanggal)
 			{
-				$id_baru = str_pad($this->id, $this->digit, "0", STR_PAD_LEFT);
-				$result = $this->prefix_tanggal . $id_baru;
-			}
-			else
-			{
-				$id_baru = str_pad(1, $this->digit, "0", STR_PAD_LEFT);
-				$result = date("ymd") . $id_baru;
+				//Set awalan dengan tanggal
+				$this->awalan = date("ymd");
 			}
 		}
 
-		//Kondisi bila tanggal di set FALSE
-		if ($this->tanggal == FALSE)
+		//Kondisi bila tanggal di set TRUE dan berbeda hari
+		if($this->tanggal && $this->awalan !== date("ymd"))
+		{
+			$id_baru = str_pad(1, $this->digit, "0", STR_PAD_LEFT);
+			$this->awalan = date("ymd");
+		}
+		else
 		{
 			$id_baru = str_pad($this->id, $this->digit, "0", STR_PAD_LEFT);
-			$result = $this->awalan . $id_baru;			
 		}
+		
+		$result = $this->awalan . $id_baru;
 
 		return $result;
 	}
