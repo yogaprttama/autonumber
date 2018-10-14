@@ -58,8 +58,9 @@ Selanjutnya tambahkan kode berikut ini di Controller Welcome di folder applicati
         }
 
         public function tes_auto_number()
-        {
-            $config['id'] = $this->contoh_model->id_terakhir();
+        {        
+            $row = $this->contoh_model->id_terakhir();
+            $config['id'] = $row->id;
             $config['awalan'] = 'P';
             $config['digit'] = 4;
             $this->auto_number->config($config);
@@ -85,7 +86,8 @@ Untuk menggunakan prefix tanggal cukup merubah config seperti ini:
 
         public function tes_auto_number()
         {
-            $config['id'] = $this->contoh_model->id_terakhir();
+            $row = $this->contoh_model->id_terakhir();
+            $config['id'] = $row->id;
             $config['digit'] = 4;
             $config['tanggal'] = TRUE;
             $this->auto_number->config($config);
